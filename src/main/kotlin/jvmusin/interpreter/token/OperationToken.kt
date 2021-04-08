@@ -20,7 +20,7 @@ data class OperationToken(val value: Char) : Token {
     fun apply(left: Int, right: Int) = function(left, right)
 }
 
-class OperationTokenReader : TokenReader<OperationToken> {
+object OperationTokenReader : TokenReader<OperationToken> {
     override fun tryRead(queue: SymbolQueue): OperationToken? {
         return queue.tryPoll { it in knownOperations }?.let(::OperationToken)
     }

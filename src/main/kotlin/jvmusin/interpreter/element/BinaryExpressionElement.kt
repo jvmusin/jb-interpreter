@@ -6,4 +6,8 @@ data class BinaryExpressionElement(
     val operation: (Int, Int) -> Int
 ) : Element {
     override fun invoke(environment: CallEnvironment) = operation(left(environment), right(environment))
+    override fun validate(environment: CallEnvironment) {
+        left.validate(environment)
+        right.validate(environment)
+    }
 }

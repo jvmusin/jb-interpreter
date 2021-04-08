@@ -2,9 +2,13 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-class GeneralExpressionTokenReader(
-    private val readers: List<ExpressionTokenReader<*>>
-) : ExpressionTokenReader<ExpressionToken> {
-    override val subExpressionReader: ExpressionTokenReader<*> = this
+private val readers = listOf(
+    BinaryExpressionTokenReader,
+    CallExpressionTokenReader,
+    IfExpressionTokenReader,
+    ConstantExpressionTokenReader
+)
+
+object GeneralExpressionTokenReader : ExpressionTokenReader<ExpressionToken> {
     override fun tryRead(queue: SymbolQueue) = readers.asSequence().mapNotNull { it.read(queue) }.firstOrNull()
 }

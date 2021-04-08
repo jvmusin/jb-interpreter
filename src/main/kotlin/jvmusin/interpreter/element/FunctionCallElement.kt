@@ -10,4 +10,10 @@ data class FunctionCallElement(
         val parameterNames = function.parameterNames
         return function(environment.copy(variables = Variables(parameterNames.zip(argumentValues).toMap())))
     }
+
+    override fun validate(environment: CallEnvironment) {
+        arguments.forEach { it.validate(environment) }
+        if (environment.getFunction(functionName).parameterNames.size != arguments.size)
+            throw ArgumentNumberMismatchError(functionName)
+    }
 }

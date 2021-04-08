@@ -2,8 +2,7 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-@Suppress("unused")
-fun <T : Token> TokenReader<*>.readSeparatedTokens(
+fun <T : Token> readSeparatedTokens(
     queue: SymbolQueue,
     tokenReader: TokenReader<out T>,
     separator: Char = ',',

@@ -1,17 +1,17 @@
 package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
+import jvmusin.interpreter.element.NumberElement
 
 data class ConstantExpressionToken(val value: Int) : ExpressionToken {
     override val symbolsUsed = value.toString().length
+    override fun toElement() = NumberElement(value)
 }
 
-class ConstantExpressionTokenReader(
-    private val numberTokenReader: NumberTokenReader
-) : TokenReader<ConstantExpressionToken> {
+object ConstantExpressionTokenReader : TokenReader<ConstantExpressionToken> {
     override fun tryRead(queue: SymbolQueue): ConstantExpressionToken? {
         val minus = queue.tryPoll { it == '-' }
-        val number = numberTokenReader.tryRead(queue)
+        val number = NumberTokenReader.tryRead(queue)
         if (number == null) {
             if (minus != null) queue.rollback(1)
             return null

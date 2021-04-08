@@ -6,9 +6,9 @@ data class CallEnvironment(private val functions: Functions, private val variabl
 }
 
 data class Functions(private val functionByName: Map<String, FunctionElement>) {
-    operator fun get(name: String) = functionByName[name] ?: throw IllegalArgumentException("FIX IT")
+    operator fun get(name: String) = functionByName[name] ?: throw FunctionNotFoundError(name)
 }
 
 class Variables(private val values: Map<String, Int>) {
-    operator fun get(name: String) = values[name] ?: throw IllegalArgumentException("FIX IT")
+    operator fun get(name: String) = values[name] ?: throw ParameterNotFoundError(name)
 }

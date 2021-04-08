@@ -6,7 +6,7 @@ data class NumberToken(val value: Int) : Token {
     override val symbolsUsed = value.toString().length
 }
 
-class NumberTokenReader : TokenReader<NumberToken> {
+object NumberTokenReader : TokenReader<NumberToken> {
     override fun tryRead(queue: SymbolQueue): NumberToken? {
         val asString = generateSequence { queue.tryPoll { it.isDigit() } }.joinToString("")
         if (asString.isEmpty()) return null

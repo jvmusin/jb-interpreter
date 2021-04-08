@@ -12,4 +12,10 @@ data class IfExpressionElement(
             ifFalse(environment)
         }
     }
+
+    override fun validate(environment: CallEnvironment) {
+        condition.validate(environment)
+        ifTrue.validate(environment)
+        ifFalse.validate(environment)
+    }
 }
