@@ -9,6 +9,8 @@ data class FunctionElement(
     override fun invoke(environment: CallEnvironment) = body(environment)
 
     override fun validate(environment: CallEnvironment) {
+        if (parameterNames.distinct().size != parameterNames.size)
+            throw ValidationError("ARGUMENT NAMES NOT DISTINCT $name:$lineNumber")
         try {
             body.validate(environment)
         } catch (e: ArgumentNumberMismatchError) {
