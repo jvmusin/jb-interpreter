@@ -18,4 +18,8 @@ data class IfExpressionElement(
         ifTrue.validate(environment)
         ifFalse.validate(environment)
     }
+
+    override fun toExpressionString(): String {
+        return "[${condition.toExpressionString()}]?(${ifTrue.toExpressionString()}):(${ifFalse.toExpressionString()})"
+    }
 }

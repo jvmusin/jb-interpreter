@@ -2,6 +2,7 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.BinaryExpressionElement
+import jvmusin.interpreter.element.Operation
 
 data class BinaryExpressionToken(
     val left: ExpressionToken,
@@ -9,10 +10,16 @@ data class BinaryExpressionToken(
     val operation: OperationToken
 ) : ExpressionToken {
     override val symbolsUsed = 1 + left.symbolsUsed + 1 + right.symbolsUsed + 1
-    override fun toElement() = BinaryExpressionElement(left.toElement(), right.toElement(), operation::apply)
+    override fun toElement(): BinaryExpressionElement {
+        return BinaryExpressionElement(
+            left.toElement(),
+            right.toElement(),
+            Operation(operation.value, operation::apply)
+        )
+    }
 }
 
-object BinaryExpressionTokenReader: ExpressionTokenReader<BinaryExpressionToken> {
+object BinaryExpressionTokenReader : ExpressionTokenReader<BinaryExpressionToken> {
     override fun tryRead(queue: SymbolQueue) = readTokenSafely(queue) {
         readString("(")
         val left = readToken(GeneralExpressionTokenReader)

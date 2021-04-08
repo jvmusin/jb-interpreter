@@ -16,4 +16,8 @@ data class FunctionCallElement(
         if (environment.getFunction(functionName).parameterNames.size != arguments.size)
             throw ArgumentNumberMismatchError(functionName)
     }
+
+    override fun toExpressionString(): String {
+        return "$functionName(${arguments.joinToString(",") { it.toExpressionString() }})"
+    }
 }

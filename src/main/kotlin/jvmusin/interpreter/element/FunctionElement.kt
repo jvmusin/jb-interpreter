@@ -6,13 +6,7 @@ data class FunctionElement(
     val parameterNames: List<String>,
     val body: Element
 ) : Element {
-    override fun invoke(environment: CallEnvironment): Int {
-        try {
-            return body(environment)
-        } catch (e: Throwable) {
-            throw IllegalArgumentException("FIX IT")
-        }
-    }
+    override fun invoke(environment: CallEnvironment) = body(environment)
 
     override fun validate(environment: CallEnvironment) {
         try {
@@ -24,5 +18,9 @@ data class FunctionElement(
         } catch (e: ParameterNotFoundError) {
             throw ParameterNotFoundError("PARAMETER NOT FOUND ${e.message}:$lineNumber")
         }
+    }
+
+    override fun toExpressionString(): String {
+        return "$name(${parameterNames.joinToString(",")})={${body.toExpressionString()}}"
     }
 }
