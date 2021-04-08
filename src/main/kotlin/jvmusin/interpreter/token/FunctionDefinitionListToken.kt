@@ -2,14 +2,12 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-data class FunctionDefinitionListToken(val functions: List<FunctionDefinitionToken>) : Token {
-    override val symbolsUsed = functions.sumOf { it.symbolsUsed } + functions.size
+data class FunctionDefinitionListToken(val values: List<FunctionDefinitionToken>) : Token {
+    override val symbolsUsed = values.sumOf { it.symbolsUsed } + values.size
 }
 
-class FunctionDefinitionListTokenReader(
-    private val functionDefinitionTokenReader: FunctionDefinitionTokenReader
-) : TokenReader<FunctionDefinitionListToken> {
+object FunctionDefinitionListTokenReader : TokenReader<FunctionDefinitionListToken> {
     override fun tryRead(queue: SymbolQueue): FunctionDefinitionListToken? {
-        return readSeparatedTokens(queue, functionDefinitionTokenReader, '\n', true)?.let(::FunctionDefinitionListToken)
+        return readSeparatedTokens(queue, FunctionDefinitionTokenReader, '\n', true)?.let(::FunctionDefinitionListToken)
     }
 }
