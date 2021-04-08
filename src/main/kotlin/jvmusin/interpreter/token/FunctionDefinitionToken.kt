@@ -2,8 +2,8 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-data class FunctionDefinitionToken(val name: String, val args: ParameterListToken, val body: ExpressionToken) : Token {
-    override val symbolsUsed = name.length + 1 + args.symbolsUsed + 3 + body.symbolsUsed + 1
+data class FunctionDefinitionToken(val name: String, val parameters: ParameterListToken, val body: ExpressionToken) : Token {
+    override val symbolsUsed = name.length + 1 + parameters.symbolsUsed + 3 + body.symbolsUsed + 1
 }
 
 class FunctionDefinitionTokenReader(

@@ -2,8 +2,8 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-data class ArgumentListToken(val args: List<ExpressionToken>) : Token {
-    override val symbolsUsed = args.sumOf(ExpressionToken::symbolsUsed) + args.size - 1
+data class ArgumentListToken(val values: List<ExpressionToken>) : Token {
+    override val symbolsUsed = values.sumOf(ExpressionToken::symbolsUsed) + values.size - 1
 }
 
 class ArgumentListTokenReader(

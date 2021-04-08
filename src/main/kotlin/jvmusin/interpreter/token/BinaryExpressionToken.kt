@@ -8,12 +8,6 @@ data class BinaryExpressionToken(
     val operation: OperationToken
 ) : ExpressionToken {
     override val symbolsUsed = 1 + left.symbolsUsed + 1 + right.symbolsUsed + 1
-
-    override fun run(callEnvironment: CallEnvironment): Int {
-        val leftResult = left.run(callEnvironment)
-        val rightResult = right.run(callEnvironment)
-        return operation.apply(leftResult, rightResult)
-    }
 }
 
 class BinaryExpressionTokenReader(

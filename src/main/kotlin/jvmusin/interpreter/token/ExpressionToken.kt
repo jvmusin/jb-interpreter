@@ -1,4 +1,4 @@
 package jvmusin.interpreter.token
 
-interface ExpressionToken : RunnableToken {
+interface ExpressionToken : Token {
 }

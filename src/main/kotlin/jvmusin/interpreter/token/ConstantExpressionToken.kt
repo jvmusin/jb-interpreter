@@ -2,19 +2,21 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
-data class ConstantExpressionToken(val value: Int, override val symbolsUsed: Int): ExpressionToken {
-    override fun run(callEnvironment: CallEnvironment) = value
+data class ConstantExpressionToken(val value: Int) : ExpressionToken {
+    override val symbolsUsed = value.toString().length
 }
 
-class ConstantExpressionTokenReader(private val numberTokenReader: NumberTokenReader) : TokenReader<ConstantExpressionToken> {
+class ConstantExpressionTokenReader(
+    private val numberTokenReader: NumberTokenReader
+) : TokenReader<ConstantExpressionToken> {
     override fun tryRead(queue: SymbolQueue): ConstantExpressionToken? {
-        val minuses = generateSequence { queue.tryPoll { it == '-' } }.count()
+        val minus = queue.tryPoll { it == '-' }
         val number = numberTokenReader.tryRead(queue)
         if (number == null) {
-            queue.rollback(minuses)
+            if (minus != null) queue.rollback(1)
             return null
         }
-        val sign = if (minuses % 2 == 0) 1 else -1
-        return ConstantExpressionToken(number.value * sign, minuses + number.symbolsUsed)
+        val sign = if (minus != null) -1 else 1
+        return ConstantExpressionToken(number.value * sign)
     }
 }

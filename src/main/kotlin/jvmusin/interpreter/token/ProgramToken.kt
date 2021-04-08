@@ -4,13 +4,6 @@ import jvmusin.interpreter.SymbolQueue
 
 data class ProgramToken(val functions: FunctionDefinitionListToken, val body: ExpressionToken) : Token {
     override val symbolsUsed = functions.symbolsUsed + body.symbolsUsed
-
-    fun run(): Int {
-        val funcs = Functions(functions.functions.associateBy { it.name })
-        val params = Parameters(emptyMap())
-        val callEnvironment = CallEnvironment(funcs, params)
-        return body.run(callEnvironment)
-    }
 }
 
 class ProgramTokenReader(

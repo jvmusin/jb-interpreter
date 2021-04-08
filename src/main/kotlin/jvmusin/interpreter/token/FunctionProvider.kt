@@ -1,2 +1,0 @@
-package jvmusin.interpreter.token
-
