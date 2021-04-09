@@ -17,7 +17,7 @@ object ProgramTokenReader : TokenReader<ProgramToken> {
     override fun tryRead(queue: SymbolQueue) = readTokenSafely(queue) {
         val functions = readToken(FunctionDefinitionListTokenReader)
         val body = readToken(GeneralExpressionTokenReader)
-        if (!queue.isFinished()) throw SyntaxError()
+        if (!queue.isEmpty()) throw SyntaxError()
         ProgramToken(functions, body)
     }
 }
