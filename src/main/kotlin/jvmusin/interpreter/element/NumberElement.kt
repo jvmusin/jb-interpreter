@@ -3,5 +3,5 @@ package jvmusin.interpreter.element
 data class NumberElement(val value: Int) : Element {
     override fun invoke(environment: CallEnvironment) = value
     override fun validate(environment: CallEnvironment) {}
-    override fun toExpressionString() = value.toString()
+    override fun toString() = value.toString()
 }

@@ -6,7 +6,7 @@ data class IfExpressionElement(
     val ifFalse: Element
 ) : Element {
     override fun invoke(environment: CallEnvironment): Int {
-        return if (condition(environment) == 1) {
+        return if (condition(environment) != 0) {
             ifTrue(environment)
         } else {
             ifFalse(environment)
@@ -19,7 +19,7 @@ data class IfExpressionElement(
         ifFalse.validate(environment)
     }
 
-    override fun toExpressionString(): String {
-        return "[${condition.toExpressionString()}]?(${ifTrue.toExpressionString()}):(${ifFalse.toExpressionString()})"
+    override fun toString(): String {
+        return "[$condition]?($ifTrue):($ifFalse)"
     }
 }

@@ -18,7 +18,7 @@ fun <T> readTokenSafely(queue: SymbolQueue, block: SafeTokenReader.() -> T): T? 
 
     return try {
         SafeTokenReaderImpl().block()
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         queue.rollback(tokensRead)
         null
     }

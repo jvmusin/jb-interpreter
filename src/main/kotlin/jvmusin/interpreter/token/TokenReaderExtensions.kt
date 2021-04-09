@@ -6,7 +6,8 @@ fun <T : Token> readSeparatedTokens(
     queue: SymbolQueue,
     tokenReader: TokenReader<out T>,
     separator: Char = ',',
-    endWithSeparator: Boolean = false
+    endWithSeparator: Boolean = false,
+    allowEmptyResult: Boolean = false
 ): List<T>? {
     val tokens = mutableListOf<T>()
     while (true) {
@@ -21,6 +22,6 @@ fun <T : Token> readSeparatedTokens(
     if (tokens.isNotEmpty() && endWithSeparator && queue.tryPoll { it == separator } == null) {
         queue.rollback(tokens.removeLast())
     }
-    if (tokens.isEmpty()) return null
+    if (!allowEmptyResult && tokens.isEmpty()) return null
     return tokens
 }

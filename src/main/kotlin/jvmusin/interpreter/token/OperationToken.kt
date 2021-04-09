@@ -16,8 +16,7 @@ private val knownOperations = mapOf<Char, (Int, Int) -> Int>(
 data class OperationToken(val value: Char) : Token {
     override val symbolsUsed = 1
 
-    private val function get() = knownOperations[value]!!
-    fun apply(left: Int, right: Int) = function(left, right)
+    val function get() = knownOperations[value]!!
 }
 
 object OperationTokenReader : TokenReader<OperationToken> {

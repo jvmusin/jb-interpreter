@@ -11,12 +11,13 @@ data class ConstantExpressionToken(val value: Int) : ExpressionToken {
 object ConstantExpressionTokenReader : TokenReader<ConstantExpressionToken> {
     override fun tryRead(queue: SymbolQueue): ConstantExpressionToken? {
         val minus = queue.tryPoll { it == '-' }
-        val number = NumberTokenReader.tryRead(queue)
+        val digits = generateSequence { queue.tryPoll { it.isDigit() } }.toList()
+        val number = digits.joinToString("").toIntOrNull()
         if (number == null) {
             if (minus != null) queue.rollback(1)
+            queue.rollback(digits.size)
             return null
         }
-        val sign = if (minus != null) -1 else 1
-        return ConstantExpressionToken(number.value * sign)
+        return ConstantExpressionToken(if (minus != null) -number else number)
     }
 }

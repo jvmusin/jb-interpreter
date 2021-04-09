@@ -6,9 +6,10 @@ private val readers = listOf(
     BinaryExpressionTokenReader,
     CallExpressionTokenReader,
     IfExpressionTokenReader,
-    ConstantExpressionTokenReader
+    ConstantExpressionTokenReader,
+    IdentifierTokenReader
 )
 
 object GeneralExpressionTokenReader : ExpressionTokenReader<ExpressionToken> {
-    override fun tryRead(queue: SymbolQueue) = readers.asSequence().mapNotNull { it.read(queue) }.firstOrNull()
+    override fun tryRead(queue: SymbolQueue) = readers.asSequence().mapNotNull { it.tryRead(queue) }.firstOrNull()
 }

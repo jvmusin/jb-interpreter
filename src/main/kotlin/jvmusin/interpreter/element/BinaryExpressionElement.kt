@@ -11,7 +11,7 @@ data class BinaryExpressionElement(
         right.validate(environment)
     }
 
-    override fun toExpressionString(): String {
-        return "(${left.toExpressionString()}${operation.representation}${right.toExpressionString()})"
+    override fun toString(): String {
+        return "($left${operation.representation}$right)"
     }
 }

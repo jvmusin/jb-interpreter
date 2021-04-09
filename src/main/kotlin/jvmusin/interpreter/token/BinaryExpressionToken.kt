@@ -14,7 +14,7 @@ data class BinaryExpressionToken(
         return BinaryExpressionElement(
             left.toElement(),
             right.toElement(),
-            Operation(operation.value, operation::apply)
+            Operation(operation.value, operation.function)
         )
     }
 }

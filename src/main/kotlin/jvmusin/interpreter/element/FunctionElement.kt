@@ -11,18 +11,10 @@ data class FunctionElement(
     override fun validate(environment: CallEnvironment) {
         if (parameterNames.distinct().size != parameterNames.size)
             throw ValidationError("ARGUMENT NAMES NOT DISTINCT $name:$lineNumber")
-        try {
-            body.validate(environment)
-        } catch (e: ArgumentNumberMismatchError) {
-            throw ArgumentNumberMismatchError("ARGUMENT NUMBER MISMATCH ${e.message}:$lineNumber")
-        } catch (e: FunctionNotFoundError) {
-            throw FunctionNotFoundError("FUNCTION NOT FOUND ${e.message}:$lineNumber")
-        } catch (e: ParameterNotFoundError) {
-            throw ParameterNotFoundError("PARAMETER NOT FOUND ${e.message}:$lineNumber")
-        }
+        body.validateWithLineNumber(environment, lineNumber)
     }
 
-    override fun toExpressionString(): String {
-        return "$name(${parameterNames.joinToString(",")})={${body.toExpressionString()}}"
+    override fun toString(): String {
+        return "$name(${parameterNames.joinToString(",")})={$body}"
     }
 }

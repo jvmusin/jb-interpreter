@@ -1,3 +1,3 @@
 package jvmusin.interpreter
 
-open class SyntaxError : Error()
+class SyntaxError : Error("SYNTAX ERROR")

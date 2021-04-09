@@ -17,7 +17,7 @@ data class FunctionCallElement(
             throw ArgumentNumberMismatchError(functionName)
     }
 
-    override fun toExpressionString(): String {
-        return "$functionName(${arguments.joinToString(",") { it.toExpressionString() }})"
+    override fun toString(): String {
+        return "$functionName(${arguments.joinToString(",")})"
     }
 }

@@ -8,6 +8,12 @@ data class FunctionDefinitionListToken(val values: List<FunctionDefinitionToken>
 
 object FunctionDefinitionListTokenReader : TokenReader<FunctionDefinitionListToken> {
     override fun tryRead(queue: SymbolQueue): FunctionDefinitionListToken? {
-        return readSeparatedTokens(queue, FunctionDefinitionTokenReader, '\n', true)?.let(::FunctionDefinitionListToken)
+        return readSeparatedTokens(
+            queue = queue,
+            tokenReader = FunctionDefinitionTokenReader,
+            separator = '\n',
+            endWithSeparator = true,
+            allowEmptyResult = true
+        )?.let(::FunctionDefinitionListToken)
     }
 }
