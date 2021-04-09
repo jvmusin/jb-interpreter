@@ -1,4 +1,4 @@
-package jvmusin.interpreter.token
+package jvmusin.interpreter
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -51,6 +51,21 @@ class IntegrationTests : StringSpec({
             g(a,b)={(a/b)}
             g(10,0)
         """.trimIndent()
-        main(input) shouldBe "RUNTIME ERROR"
+        main(input) shouldBe "RUNTIME ERROR (a/b):1"
+    }
+    "ARGUMENT NAMES NOT DISTINCT" {
+        val input = """
+            f(a,b,a)={b}
+            f(1,2,1)
+        """.trimIndent()
+        main(input) shouldBe "ARGUMENT NAMES NOT DISTINCT f:1"
+    }
+    "FUNCTION NAMES NOT DISTINCT" {
+        val input = """
+            f(a)={a}
+            f(c)={c}
+            f(1)
+        """.trimIndent()
+        main(input) shouldBe "FUNCTION NAMES NOT DISTINCT f:2"
     }
 })

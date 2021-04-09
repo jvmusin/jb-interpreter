@@ -5,7 +5,7 @@ data class IfExpressionElement(
     val ifTrue: Element,
     val ifFalse: Element
 ) : Element {
-    override fun invoke(environment: CallEnvironment): Int {
+    override fun invokeUnsafely(environment: CallEnvironment): Int  {
         return if (condition(environment) != 0) {
             ifTrue(environment)
         } else {
