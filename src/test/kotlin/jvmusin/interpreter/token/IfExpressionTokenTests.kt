@@ -5,18 +5,21 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import jvmusin.interpreter.SymbolQueue
 
-class IfExpressionTokenTests : BehaviorSpec ({
+class IfExpressionTokenTests : BehaviorSpec({
     Given("reader.tryRead()") {
+        fun tryRead(s: String) = IfExpressionTokenReader.tryRead(SymbolQueue(s))
         When("string is '[a]?(b):(c)'") {
             Then("reads it") {
-                val result = IfExpressionTokenReader.tryRead(SymbolQueue("[a]?(b):(c)"))
-                result.shouldNotBeNull().toElement().toString() shouldBe "[a]?(b):(c)"
+                val s = "[a]?(b):(c)"
+                val result = tryRead(s)
+                result.shouldNotBeNull().toElement().toString() shouldBe s
             }
         }
         When("string is '[(a<2)]?((a+1)):(5)'") {
             Then("reads it") {
-                val result = IfExpressionTokenReader.tryRead(SymbolQueue("[(a<2)]?((a+1)):(5)"))
-                result.shouldNotBeNull().toElement().toString() shouldBe "[(a<2)]?((a+1)):(5)"
+                val s = "[(a<2)]?((a+1)):(5)"
+                val result = tryRead(s)
+                result.shouldNotBeNull().toElement().toString() shouldBe s
             }
         }
     }
