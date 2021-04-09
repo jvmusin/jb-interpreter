@@ -2,6 +2,13 @@ package jvmusin.interpreter.token
 
 import jvmusin.interpreter.SymbolQueue
 
+/**
+ * Reads a list of separated by [separator] tokens of type [T] from [queue] using [tokenReader] to read tokens.
+ *
+ * Tokens may end with a separator or not, depending on [endWithSeparator] value.
+ *
+ * Empty result will be evaluated to `null` if [allowEmptyResult] is `false`.
+ */
 fun <T : Token> readSeparatedTokens(
     queue: SymbolQueue,
     tokenReader: TokenReader<out T>,

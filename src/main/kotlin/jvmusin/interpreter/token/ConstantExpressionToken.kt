@@ -3,11 +3,23 @@ package jvmusin.interpreter.token
 import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.NumberElement
 
+/**
+ * Constant expression token.
+ *
+ * Represents a constant integer value, possibly negative.
+ *
+ * @property value The integer value itself.
+ */
 data class ConstantExpressionToken(val value: Int) : ExpressionToken {
     override val symbolsUsed = value.toString().length
     override fun toElement() = NumberElement(value)
 }
 
+/**
+ * Constant expression token reader.
+ *
+ * Allows to read [ConstantExpressionToken]-s.
+ */
 object ConstantExpressionTokenReader : TokenReader<ConstantExpressionToken> {
     override fun tryRead(queue: SymbolQueue): ConstantExpressionToken? {
         val minus = queue.tryPoll { it == '-' }
