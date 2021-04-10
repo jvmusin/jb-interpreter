@@ -3,7 +3,6 @@ package jvmusin.interpreter.token
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.SymbolQueue
 
 class GeneralExpressionTokenReaderTests : StringSpec({
     fun tryRead(s: String) = GeneralExpressionTokenReader.tryRead(SymbolQueue(s))

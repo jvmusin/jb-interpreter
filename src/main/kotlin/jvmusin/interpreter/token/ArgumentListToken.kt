@@ -1,27 +1,27 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
-
 /**
  * Argument list token.
  *
- * Represent list of arguments when calling a function.
+ * Represents list of arguments when calling a function.
  *
  * Looks like a comma-separated list of expressions.
  *
+ * Used by [CallExpressionToken].
+ *
  * @property values Expressions that will be evaluated and used as function arguments.
  */
-data class ArgumentListToken(val values: List<ExpressionToken>) : Token {
-    override val symbolsUsed = values.sumOf { it.symbolsUsed } + values.size - 1
-}
+data class ArgumentListToken(val values: List<ExpressionToken>) : Token
 
 /**
  * Argument list token reader.
  *
- * Allows to read [ArgumentListToken]-s.
+ * Allows to read [ArgumentListToken]-s. Used by [CallExpressionTokenReader].
  */
 object ArgumentListTokenReader : TokenReader<ArgumentListToken> {
     override fun tryRead(queue: SymbolQueue): ArgumentListToken? {
-        return readSeparatedTokens(queue, GeneralExpressionTokenReader)?.let { ArgumentListToken(it) }
+        return readCommaSeparatedTokens(queue, GeneralExpressionTokenReader).let {
+            if (it.isEmpty()) null else ArgumentListToken(it)
+        }
     }
 }

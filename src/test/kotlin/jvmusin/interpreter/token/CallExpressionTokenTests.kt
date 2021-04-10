@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.SymbolQueue
 
 class CallExpressionTokenTests : StringSpec({
     fun tryRead(s: String) = CallExpressionTokenReader.tryRead(SymbolQueue(s))

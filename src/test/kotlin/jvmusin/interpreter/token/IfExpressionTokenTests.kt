@@ -3,7 +3,6 @@ package jvmusin.interpreter.token
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.SymbolQueue
 
 class IfExpressionTokenTests : BehaviorSpec({
     Given("reader.tryRead()") {

@@ -1,6 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.SyntaxError
 
 /**

@@ -1,6 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.ProgramElement
 
 /**
@@ -15,8 +14,6 @@ import jvmusin.interpreter.element.ProgramElement
  * @property body Body of a program to be executed when the program is launched.
  */
 data class ProgramToken(val functions: FunctionDefinitionListToken, val body: ExpressionToken) : Token {
-    override val symbolsUsed = functions.symbolsUsed + body.symbolsUsed
-
     fun toElement(): ProgramElement {
         val functionElements = functions.values.mapIndexed { index, func -> func.toElement(index + 1) }
         return ProgramElement(functionElements, body.toElement())
@@ -31,7 +28,7 @@ data class ProgramToken(val functions: FunctionDefinitionListToken, val body: Ex
  * Returns `null` if after reading a program something left in a queue.
  */
 object ProgramTokenReader : TokenReader<ProgramToken> {
-    override fun tryRead(queue: SymbolQueue) = readTokenSafely(queue) {
+    override fun tryRead(queue: SymbolQueue) = queue.readSafely {
         val functions = readToken(FunctionDefinitionListTokenReader)
         val body = readToken(GeneralExpressionTokenReader)
         if (queue.isEmpty()) ProgramToken(functions, body) else null

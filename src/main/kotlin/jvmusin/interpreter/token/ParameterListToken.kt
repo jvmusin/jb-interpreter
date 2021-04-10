@@ -1,19 +1,17 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
-
 /**
  * Parameter list token.
  *
  * Represents list of function parameters.
  *
+ * Looks like a comma-separated list of identifiers.
+ *
  * Used by [FunctionDefinitionToken].
  *
- * @property values names of function parameters.
+ * @property values Names of function parameters.
  */
-data class ParameterListToken(val values: List<String>) : Token {
-    override val symbolsUsed = values.sumOf { it.length } + values.size - 1
-}
+data class ParameterListToken(val values: List<String>) : Token
 
 /**
  * Parameter list token reader.
@@ -22,8 +20,8 @@ data class ParameterListToken(val values: List<String>) : Token {
  */
 object ParameterListTokenReader : TokenReader<ParameterListToken> {
     override fun tryRead(queue: SymbolQueue): ParameterListToken? {
-        return readSeparatedTokens(queue, IdentifierTokenReader)?.let {
-            ParameterListToken(it.map(IdentifierToken::name))
+        return readCommaSeparatedTokens(queue, IdentifierTokenReader).let {
+            if (it.isEmpty()) null else ParameterListToken(it.map(IdentifierToken::name))
         }
     }
 }

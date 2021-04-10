@@ -1,5 +1,5 @@
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.token.ProgramTokenReader
+import jvmusin.interpreter.token.SymbolQueue
 
 private fun fixInput(input: String) = input.replace("\r\n", "\n").trimEnd('\n')
 

@@ -6,6 +6,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import jvmusin.interpreter.token.SymbolQueue
 
 class SymbolQueueTests : BehaviorSpec({
     Given("isEmpty") {
@@ -27,52 +28,64 @@ class SymbolQueueTests : BehaviorSpec({
                         isEmpty().shouldBeTrue()
                     }
                 }
-                And("then one symbol was rolled back") {
-                    Then("returns false") {
-                        SymbolQueue("abc").apply {
-                            poll { it == 'a' }
-                            poll { it == 'b' }
-                            poll { it == 'c' }
-                            rollback(1)
-                            isEmpty().shouldBeFalse()
-                        }
-                    }
-                }
             }
         }
     }
-    Given("rollback") {
-        When("rolling back to negative indices") {
-            Then("fails") {
-                shouldThrowAny { SymbolQueue("abc").rollback(100) }
-            }
-        }
-        When("rolling back negative value") {
-            Then("fails") {
-                shouldThrowAny { SymbolQueue("abc").rollback(-100) }
-                shouldThrowAny { SymbolQueue("abc").apply { rollback(1); rollback(-1) } }
-            }
-        }
-        When("after polling one symbol and rolling it back") {
-            Then("doesn't change anything") {
+    Given("caret") {
+        When("reading a symbol") {
+            Then("it moves") {
                 SymbolQueue("abc").apply {
+                    caret shouldBe 0
                     poll { it == 'a' }
-                    rollback(1)
-                    poll { it == 'a' } shouldBe 'a'
+                    poll { it == 'b' }
+                    caret shouldBe 2
+                    poll { it == 'c' }
+                    caret shouldBe 3
                 }
             }
         }
-        When("after polling several symbols and rolling back by some") {
-            Then("rolls back correctly") {
-                SymbolQueue("abcde").apply {
-                    poll { it == 'a' } shouldBe 'a'
-                    poll { it == 'b' } shouldBe 'b'
-                    poll { it == 'c' } shouldBe 'c'
-                    poll { it == 'd' } shouldBe 'd'
-                    rollback(2)
-                    poll { it == 'c' } shouldBe 'c'
-                    poll { it == 'd' } shouldBe 'd'
-                    poll { it == 'e' } shouldBe 'e'
+        When("moving it to correct position") {
+            Then("it moves") {
+                SymbolQueue("abc").apply {
+                    poll { it == 'a' }
+                    poll { it == 'b' }
+                    caret = 0
+                    poll { it == 'a' }
+                    isEmpty().shouldBeFalse()
+                    caret = 3
+                    isEmpty().shouldBeTrue()
+                }
+            }
+        }
+        When("moving caret to the end of a string") {
+            Then("it moves") {
+                SymbolQueue("abc").apply {
+                    caret shouldBe 0
+                    isEmpty().shouldBeFalse()
+                    caret = 3
+                    isEmpty().shouldBeTrue()
+                    tryPoll { true }.shouldBeNull()
+                }
+            }
+        }
+        When("moving caret to negative position") {
+            Then("fails to move") {
+                SymbolQueue("abc").apply {
+                    poll { it == 'a' }
+                    caret shouldBe 1
+                    shouldThrowAny { run { caret = -1 } }
+                    caret shouldBe 1
+                    poll { it == 'b' }
+                }
+            }
+        }
+        When("moving caret too far away") {
+            Then("fails to move") {
+                SymbolQueue("abc").apply {
+                    shouldThrowAny { run { caret = 4 } }
+                    shouldThrowAny { run { caret = 5 } }
+                    shouldThrowAny { run { caret = 6 } }
+                    caret shouldBe 0
                 }
             }
         }

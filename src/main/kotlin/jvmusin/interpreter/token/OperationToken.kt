@@ -1,7 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
-
 /**
  * All known operations and their meaning.
  */
@@ -24,8 +22,6 @@ private val knownOperations = mapOf<Char, (Int, Int) -> Int>(
  * @property value Character representation of the operation.
  */
 data class OperationToken(val value: Char) : Token {
-    override val symbolsUsed = 1
-
     /**
      * This operation's respective function.
      */
@@ -40,7 +36,5 @@ data class OperationToken(val value: Char) : Token {
  * All known operations are defined in [knownOperations].
  */
 object OperationTokenReader : TokenReader<OperationToken> {
-    override fun tryRead(queue: SymbolQueue): OperationToken? {
-        return queue.tryPoll { it in knownOperations }?.let(::OperationToken)
-    }
+    override fun tryRead(queue: SymbolQueue) = queue.readSafely { OperationToken(readSymbol { it in knownOperations }) }
 }

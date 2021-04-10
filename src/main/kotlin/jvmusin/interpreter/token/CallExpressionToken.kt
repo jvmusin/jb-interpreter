@@ -1,6 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.FunctionCallElement
 
 /**
@@ -19,7 +18,6 @@ import jvmusin.interpreter.element.FunctionCallElement
  * @property arguments Arguments to use when calling a function.
  */
 data class CallExpressionToken(val functionName: String, val arguments: ArgumentListToken) : ExpressionToken {
-    override val symbolsUsed = functionName.length + 1 + arguments.symbolsUsed + 1
     override fun toElement() = FunctionCallElement(functionName, arguments.values.map { it.toElement() })
 }
 
@@ -29,7 +27,7 @@ data class CallExpressionToken(val functionName: String, val arguments: Argument
  * Allows to read [CallExpressionToken]-s.
  */
 object CallExpressionTokenReader : ExpressionTokenReader<CallExpressionToken> {
-    override fun tryRead(queue: SymbolQueue) = readTokenSafely(queue) {
+    override fun tryRead(queue: SymbolQueue) = queue.readSafely {
         val identifier = readToken(IdentifierTokenReader)
         readString("(")
         val args = readToken(ArgumentListTokenReader)

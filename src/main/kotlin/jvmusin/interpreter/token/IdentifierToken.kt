@@ -1,6 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.VariableElement
 
 /**
@@ -11,19 +10,18 @@ import jvmusin.interpreter.element.VariableElement
  * @property name Name of the identifier.
  */
 data class IdentifierToken(val name: String) : ExpressionToken {
-    override val symbolsUsed = name.length
     override fun toElement() = VariableElement(name)
 }
 
 /**
- * Identifier token reader
+ * Identifier token reader.
  *
- * Allows to read [IdentifierToken]-s.
+ * Reads [IdentifierToken]-s.
+ *
+ * If name of the identifier is empty, returns `null`.
  */
 object IdentifierTokenReader : ExpressionTokenReader<IdentifierToken> {
-    override fun tryRead(queue: SymbolQueue): IdentifierToken? {
-        val value = generateSequence { queue.tryPoll { it == '_' || it.isLetter() } }.joinToString("")
-        if (value.isEmpty()) return null
-        return IdentifierToken(value)
+    override fun tryRead(queue: SymbolQueue): IdentifierToken? = queue.readSafely {
+        readString { it == '_' || it.isLetter() }.ifEmpty { null }?.let(::IdentifierToken)
     }
 }

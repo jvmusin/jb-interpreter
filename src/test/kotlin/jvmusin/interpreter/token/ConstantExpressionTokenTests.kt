@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.SymbolQueue
 
 class ConstantExpressionTokenTests : BehaviorSpec({
     Given("reader.tryRead()") {

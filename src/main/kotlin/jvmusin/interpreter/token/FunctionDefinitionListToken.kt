@@ -1,7 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
-
 /**
  * Function definition list token.
  *
@@ -9,9 +7,7 @@ import jvmusin.interpreter.SymbolQueue
  *
  * @property values Functions in this list.
  */
-data class FunctionDefinitionListToken(val values: List<FunctionDefinitionToken>) : Token {
-    override val symbolsUsed = values.sumOf { it.symbolsUsed } + values.size
-}
+data class FunctionDefinitionListToken(val values: List<FunctionDefinitionToken>) : Token
 
 /**
  * Function definition list token reader.
@@ -19,13 +15,10 @@ data class FunctionDefinitionListToken(val values: List<FunctionDefinitionToken>
  * Allows to read [FunctionDefinitionListToken].
  */
 object FunctionDefinitionListTokenReader : TokenReader<FunctionDefinitionListToken> {
-    override fun tryRead(queue: SymbolQueue): FunctionDefinitionListToken? {
-        return readSeparatedTokens(
-            queue = queue,
-            tokenReader = FunctionDefinitionTokenReader,
-            separator = '\n',
-            endWithSeparator = true,
-            allowEmptyResult = true
-        )?.let(::FunctionDefinitionListToken)
+    override fun tryRead(queue: SymbolQueue): FunctionDefinitionListToken {
+        val functions = generateSequence {
+            queue.readSafely { readToken(FunctionDefinitionTokenReader).also { readSymbol('\n') } }
+        }
+        return FunctionDefinitionListToken(functions.toList())
     }
 }

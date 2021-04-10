@@ -1,7 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
-
 /**
  * List of all known [ExpressionTokenReader]-s.
  */

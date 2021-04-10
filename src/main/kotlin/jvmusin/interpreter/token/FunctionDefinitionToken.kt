@@ -1,6 +1,5 @@
 package jvmusin.interpreter.token
 
-import jvmusin.interpreter.SymbolQueue
 import jvmusin.interpreter.element.FunctionElement
 
 /**
@@ -23,7 +22,6 @@ data class FunctionDefinitionToken(
     val parameters: ParameterListToken,
     val body: ExpressionToken
 ) : Token {
-    override val symbolsUsed = name.length + 1 + parameters.symbolsUsed + 3 + body.symbolsUsed + 1
     fun toElement(lineNumber: Int) = FunctionElement(lineNumber, name, parameters.values, body.toElement())
 }
 
@@ -33,7 +31,7 @@ data class FunctionDefinitionToken(
  * Allows to read [FunctionDefinitionToken]-s. Uses [ParameterListTokenReader] to read function parameters.
  */
 object FunctionDefinitionTokenReader : TokenReader<FunctionDefinitionToken> {
-    override fun tryRead(queue: SymbolQueue) = readTokenSafely(queue) {
+    override fun tryRead(queue: SymbolQueue) = queue.readSafely {
         val identifier = readToken(IdentifierTokenReader)
         readString("(")
         val args = readToken(ParameterListTokenReader)
