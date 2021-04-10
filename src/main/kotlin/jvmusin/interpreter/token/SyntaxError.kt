@@ -1,3 +1,3 @@
-package jvmusin.interpreter
+package jvmusin.interpreter.token
 
 class SyntaxError : Error("SYNTAX ERROR")
