@@ -1,4 +1,4 @@
-package jvmusin.interpreter
+package jvmusin.interpreter.token
 
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.BehaviorSpec
@@ -6,7 +6,6 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.token.SymbolQueue
 
 class SymbolQueueTests : BehaviorSpec({
     Given("isEmpty") {
