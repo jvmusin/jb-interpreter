@@ -1,7 +1,7 @@
 package jvmusin.interpreter.token
 
 import jvmusin.interpreter.element.BinaryExpressionElement
-import jvmusin.interpreter.element.Operation
+import jvmusin.interpreter.element.BinaryOperation
 
 /**
  * Binary expression token. Looks like
@@ -23,7 +23,7 @@ data class BinaryExpressionToken(
         return BinaryExpressionElement(
             left.toElement(),
             right.toElement(),
-            Operation(operation.value, operation.function)
+            BinaryOperation(operation.value, operation.function)
         )
     }
 }
