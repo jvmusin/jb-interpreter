@@ -13,6 +13,5 @@ fun main(input: String) = try {
     program.validate()
     program().toString()
 } catch (e: Throwable) {
-    e.printStackTrace()
     e.message ?: throw e
 }
