@@ -2,12 +2,15 @@ package jvmusin.interpreter
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldMatch
 import main
 
 class IntegrationTests : StringSpec({
+    val negFunction = "neg(x)={(0-x)}"
+    val absFunction = "abs(x)={[(x<0)]?(neg(x)):(x)}"
     val gcdFunction = "gcd(a,b)={[(b=0)]?(a):(gcd(b,(a%b)))}"
     val lcmFunction = "lcm(a,b)={((a*b)/gcd(a,b))}"
-    val absFunction = "abs(x)={[(x<0)]?((0-x)):(x)}"
+    val powFunction = "pow(n,k)={[(k=0)]?(1):((pow(n,(k-1))*n))}"
     fun buildProgram(program: String, vararg functions: String) = (functions.toList() + program).joinToString("\n")
     fun runProgram(program: String, vararg functions: String) = main(buildProgram(program, *functions))
 
@@ -54,7 +57,19 @@ class IntegrationTests : StringSpec({
         runProgram("f(1)", f1, f2) shouldBe "FUNCTION NAMES NOT DISTINCT f:2"
     }
 
+    "Deep recursive function fails on stack overflow" {
+        val f = "f(x)={[(x=0)]?(0):((f((x-1))+x))}"
+        fun sum(x: Int) = x * (x + 1) / 2
+        runProgram("f(5)", f).toInt() shouldBe sum(5)
+        runProgram("f(100)", f).toInt() shouldBe sum(100)
+        runProgram("f(1000000000)", f) shouldMatch "^RUNTIME ERROR .*:1$".toRegex()
+    }
+
+    "neg function positive arg" { runProgram("neg(5)", negFunction).toInt() shouldBe -5 }
+    "neg function negative arg" { runProgram("neg(-5)", negFunction).toInt() shouldBe 5 }
+    "abs function negative arg" { runProgram("abs(-12)", absFunction, negFunction).toInt() shouldBe 12 }
+    "abs function positive arg" { runProgram("abs(12)", absFunction, negFunction).toInt() shouldBe 12 }
     "gcd function" { runProgram("gcd(3120,1352)", gcdFunction).toInt() shouldBe 104 }
     "lcm function" { runProgram("lcm(3120,1352)", lcmFunction, gcdFunction).toInt() shouldBe 40560 }
-    "abs function" { runProgram("abs(-12)", absFunction).toInt() shouldBe 12 }
+    "powFunction" { runProgram("pow(3,5)", powFunction).toInt() shouldBe 3 * 3 * 3 * 3 * 3 }
 })
