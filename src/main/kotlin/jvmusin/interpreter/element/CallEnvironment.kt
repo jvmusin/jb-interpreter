@@ -62,7 +62,7 @@ fun buildFunctions(functions: List<FunctionElement>): Functions {
  *
  * Contains all variables with their respective [values] in the current scope and allows to access them by name.
  */
-class Variables(private val values: Map<String, Int>) {
+data class Variables(private val values: Map<String, Int>) {
     /**
      * Returns value of a variable with the given [name] or throws [ParameterNotFoundError] if the variable is not found.
      */
