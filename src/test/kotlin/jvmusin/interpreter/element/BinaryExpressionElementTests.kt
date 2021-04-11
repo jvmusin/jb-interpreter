@@ -1,12 +1,8 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import jvmusin.interpreter.element.BinaryExpressionElement
-import jvmusin.interpreter.element.BinaryOperation
-import jvmusin.interpreter.element.CallEnvironment
-import jvmusin.interpreter.element.Element
 
 class BinaryExpressionElementTests : StringSpec({
     "toString returns 'left+right' where '+' is an operation sign" {

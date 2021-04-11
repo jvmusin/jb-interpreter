@@ -1,6 +1,4 @@
-package jvmusin.interpreter.elelment
-
-import jvmusin.interpreter.element.*
+package jvmusin.interpreter.element
 
 /**
  * Returns an environment with a single mocked function f(x)=x and a variable x=1

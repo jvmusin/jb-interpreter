@@ -1,4 +1,4 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -6,7 +6,6 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.throwable.shouldHaveMessage
 import io.mockk.*
-import jvmusin.interpreter.element.*
 
 class FunctionElementTests : StringSpec({
     "invoke(environment) returns body's execution result when no exceptions are thrown" {

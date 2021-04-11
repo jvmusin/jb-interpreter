@@ -1,11 +1,8 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import jvmusin.interpreter.element.CallEnvironment
-import jvmusin.interpreter.element.Element
-import jvmusin.interpreter.element.IfExpressionElement
 
 class IfExpressionElementTests : StringSpec({
     "invoke passes environment to condition, ifTrue and ifFalse" {

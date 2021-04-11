@@ -1,10 +1,9 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
-import jvmusin.interpreter.element.*
 
 class CallEnvironmentTests : BehaviorSpec({
     Given("Functions") {

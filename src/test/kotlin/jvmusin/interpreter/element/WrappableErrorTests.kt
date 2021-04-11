@@ -1,8 +1,7 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import jvmusin.interpreter.element.WrappableError
 
 class WrappableErrorTests : StringSpec({
 

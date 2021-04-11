@@ -1,9 +1,8 @@
-package jvmusin.interpreter.elelment
+package jvmusin.interpreter.element
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import jvmusin.interpreter.element.*
 
 class FunctionCallElementTests : StringSpec({
     "toString returns string representation in form of 'functionName(arg1,arg2)'" {
