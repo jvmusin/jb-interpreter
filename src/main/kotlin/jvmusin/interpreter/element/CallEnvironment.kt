@@ -6,6 +6,11 @@ package jvmusin.interpreter.element
  * Contains all known [functions] and the current scope [variables].
  */
 data class CallEnvironment(private val functions: Functions, private val variables: Variables) {
+
+    companion object {
+        val EMPTY = CallEnvironment(Functions(emptyMap()), Variables(emptyMap()))
+    }
+
     /**
      * Returns function with the given [name] and [parameterCount].
      *

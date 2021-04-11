@@ -12,8 +12,6 @@ import jvmusin.interpreter.element.*
 
 class ElementExtensionsTests : BehaviorSpec({
 
-    val emptyEnvironment = CallEnvironment(Functions(emptyMap()), Variables(emptyMap()))
-
     val testElement = mockk<Element>()
 
     beforeEach {
@@ -24,7 +22,7 @@ class ElementExtensionsTests : BehaviorSpec({
         When("everything is alright") {
             Then("does not throw any exceptions") {
                 every { testElement.validate(any()) } just Runs
-                testElement.validateWithLineNumber(emptyEnvironment, 1)
+                testElement.validateWithLineNumber(CallEnvironment.EMPTY, 1)
             }
         }
         When("element's validate method throws a ValidationError") {
@@ -33,7 +31,7 @@ class ElementExtensionsTests : BehaviorSpec({
                     override val prefix = "Prefix"
                 }
                 every { testElement.validate(any()) } throws e
-                shouldThrow<ValidationError> { testElement.validateWithLineNumber(emptyEnvironment, 2) }
+                shouldThrow<ValidationError> { testElement.validateWithLineNumber(CallEnvironment.EMPTY, 2) }
                     .shouldHaveMessage("Prefix cause:2")
             }
         }
@@ -41,7 +39,7 @@ class ElementExtensionsTests : BehaviorSpec({
             Then("rethrows the same exception") {
                 val e = Exception("123")
                 every { testElement.validate(any()) } throws e
-                shouldThrowAny { testElement.validateWithLineNumber(emptyEnvironment, 2) } shouldBe e
+                shouldThrowAny { testElement.validateWithLineNumber(CallEnvironment.EMPTY, 2) } shouldBe e
             }
         }
     }
@@ -50,14 +48,14 @@ class ElementExtensionsTests : BehaviorSpec({
         When("no exceptions are thrown") {
             Then("returns calculated value") {
                 every { testElement.invokeUnsafely(any()) } returns 42
-                testElement.invokeSafely { invokeUnsafely(emptyEnvironment) } shouldBe 42
+                testElement.invokeSafely { invokeUnsafely(CallEnvironment.EMPTY) } shouldBe 42
             }
         }
         When("an InterpreterRuntimeError is thrown") {
             Then("it rethrows") {
                 val e = InterpreterRuntimeError("oops")
                 every { testElement.invokeUnsafely(any()) } throws e
-                shouldThrowAny { testElement.invokeSafely { invokeUnsafely(emptyEnvironment) } } shouldBe e
+                shouldThrowAny { testElement.invokeSafely { invokeUnsafely(CallEnvironment.EMPTY) } } shouldBe e
             }
         }
         When("some throwable but InterpreterRuntimeError is thrown") {
@@ -66,7 +64,7 @@ class ElementExtensionsTests : BehaviorSpec({
                 every { testElement.invokeUnsafely(any()) } throws e
                 every { testElement.toString() } returns "string representation"
                 val thrown = shouldThrowExactly<InterpreterRuntimeError> {
-                    testElement.invokeSafely { invokeUnsafely(emptyEnvironment) }
+                    testElement.invokeSafely { invokeUnsafely(CallEnvironment.EMPTY) }
                 }
                 thrown.cause shouldBe e
                 thrown shouldHaveMessage "string representation"
@@ -78,7 +76,7 @@ class ElementExtensionsTests : BehaviorSpec({
         When("no exceptions are thrown") {
             Then("returns calculated value") {
                 every { testElement.invokeUnsafely(any()) } returns 42
-                testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(emptyEnvironment) } shouldBe 42
+                testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(CallEnvironment.EMPTY) } shouldBe 42
             }
         }
         When("an unwrapped InterpreterRuntimeError is thrown") {
@@ -86,7 +84,7 @@ class ElementExtensionsTests : BehaviorSpec({
                 val e = InterpreterRuntimeError("oops")
                 every { testElement.invokeUnsafely(any()) } throws e
                 val thrown = shouldThrow<InterpreterRuntimeError> {
-                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(emptyEnvironment) }
+                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(CallEnvironment.EMPTY) }
                 }
                 thrown.cause shouldBe e
                 thrown shouldHaveMessage "RUNTIME ERROR oops:11"
@@ -97,7 +95,7 @@ class ElementExtensionsTests : BehaviorSpec({
                 val e = InterpreterRuntimeError("oops", wrapped = true)
                 every { testElement.invokeUnsafely(any()) } throws e
                 shouldThrowAny {
-                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(emptyEnvironment) }
+                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(CallEnvironment.EMPTY) }
                 } shouldBe e
             }
         }
@@ -107,7 +105,7 @@ class ElementExtensionsTests : BehaviorSpec({
                 every { testElement.invokeUnsafely(any()) } throws e
                 every { testElement.toString() } returns "string representation"
                 val thrown = shouldThrow<InterpreterRuntimeError> {
-                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(emptyEnvironment) }
+                    testElement.invokeSafelyWithLineNumber(11) { invokeUnsafely(CallEnvironment.EMPTY) }
                 }
                 thrown.cause.shouldNotBeNull().cause shouldBe e // it's getting nested because of wrapping
                 thrown.message shouldBe "RUNTIME ERROR string representation:11"
