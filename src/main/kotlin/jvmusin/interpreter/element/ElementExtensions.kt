@@ -28,7 +28,7 @@ inline fun <T : Element> T.invokeSafely(block: T.() -> Int): Int {
     } catch (e: InterpreterRuntimeError) {
         throw e
     } catch (e: Throwable) {
-        throw InterpreterRuntimeError(toString())
+        throw InterpreterRuntimeError(toString(), e)
     }
 }
 
@@ -37,7 +37,7 @@ inline fun <T : Element> T.invokeSafely(block: T.() -> Int): Int {
  *
  * If some exception but [InterpreterRuntimeError] is thrown,
  * then wraps it into [InterpreterRuntimeError] with a message equal to `this.toString()`
- * and then immediately wrapping it with [InterpreterRuntimeError.wrap] and [lineNumber].
+ * and then immediately wraps it with [InterpreterRuntimeError.wrap] and [lineNumber].
  *
  * Allows wrapping such that if some other function throws [InterpreterRuntimeError],
  * then it's being rethrown without any modifications.
@@ -50,6 +50,6 @@ inline fun <T : Element> T.invokeSafelyWithLineNumber(lineNumber: Int, block: T.
     } catch (e: InterpreterRuntimeError) {
         throw e.wrap(lineNumber)
     } catch (e: Throwable) {
-        throw InterpreterRuntimeError(toString()).wrap(lineNumber)
+        throw InterpreterRuntimeError(toString(), e).wrap(lineNumber)
     }
 }
