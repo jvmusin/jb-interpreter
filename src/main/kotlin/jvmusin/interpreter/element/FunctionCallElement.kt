@@ -17,8 +17,8 @@ data class FunctionCallElement(
      * and then calls the function with [CallEnvironment.variables], defined for this function, and returns its result.
      */
     override fun invokeUnsafely(environment: CallEnvironment): Int {
+        val function = environment.getFunction(functionName, arguments.size)
         val argumentValues = arguments.map { it.invoke(environment) }
-        val function = environment.getFunction(functionName)
         val parameterNames = function.parameterNames
         return function(environment.copy(variables = Variables(parameterNames.zip(argumentValues).toMap())))
     }
@@ -26,15 +26,16 @@ data class FunctionCallElement(
     /**
      * Validates all the [arguments] using [environment].
      *
-     * If some of arguments are invalid, then [ValidationError] is thrown.
+     * If there is no function with the given [functionName], then [FunctionNotFoundError] is thrown.
      *
-     * If argument count is not equal to the callable function's argument count,
+     * If there is a function with the given [functionName], but not with the given number of [arguments],
      * then [ArgumentNumberMismatchError] is thrown.
+     *
+     * If any of the [arguments] are invalid, then [ValidationError] is thrown.
      */
     override fun validate(environment: CallEnvironment) {
+        environment.getFunction(functionName, arguments.size)
         arguments.forEach { it.validate(environment) }
-        if (environment.getFunction(functionName).parameterNames.size != arguments.size)
-            throw ArgumentNumberMismatchError(functionName)
     }
 
     /**

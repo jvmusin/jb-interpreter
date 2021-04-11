@@ -90,7 +90,7 @@ class ArgumentNumberMismatchError(functionName: String) : ValidationError(functi
 }
 
 /**
- * Argument names not distinct.
+ * Argument names not distinct error.
  *
  * Thrown if some function's argument names are not pairwise-distinct.
  */
@@ -99,12 +99,12 @@ class ArgumentNamesNotDistinctError(duplicatedArgumentName: String) : Validation
 }
 
 /**
- * Function names not distinct.
+ * Functions not distinct error.
  *
- * Thrown if program defines several functions with the same name.
+ * Thrown if program defines several functions with the same name and parameter count.
  */
-class FunctionNamesNotDistinctError(functionName: String) : ValidationError(functionName) {
-    override val prefix = "FUNCTION NAMES NOT DISTINCT"
+class FunctionsNotDistinctError(functionName: String) : ValidationError(functionName) {
+    override val prefix = "FUNCTIONS NOT DISTINCT"
 }
 
 /**

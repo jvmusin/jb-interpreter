@@ -24,7 +24,7 @@ data class ProgramElement(private val functions: List<FunctionElement>, private 
     /**
      * An environment that contains all defined functions and no variables.
      */
-    private val startEnvironment = CallEnvironment(Functions(functions.associateBy { it.name }), Variables(emptyMap()))
+    private val startEnvironment = CallEnvironment(buildFunctions(functions), Variables(emptyMap()))
 
     /**
      * Starts the program.
@@ -58,10 +58,10 @@ data class ProgramElement(private val functions: List<FunctionElement>, private 
      * Validates the program's [functions] and [body] and throws [ValidationError] in case of validation failure.
      */
     fun validate() {
-        val foundFunctionNames = mutableSetOf<String>()
+        val foundFunctions = mutableSetOf<Pair<String, Int>>()
         for (function in functions) {
-            if (!foundFunctionNames.add(function.name)) {
-                throw FunctionNamesNotDistinctError(function.name).wrap(function.lineNumber)
+            if (!foundFunctions.add(Pair(function.name, function.parameterNames.size))) {
+                throw FunctionsNotDistinctError(function.name).wrap(function.lineNumber)
             }
             val variables = Variables(function.parameterNames.associateWith { 0 })
             function.validate(startEnvironment.copy(variables = variables))

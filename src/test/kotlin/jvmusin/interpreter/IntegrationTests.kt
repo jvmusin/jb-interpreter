@@ -51,10 +51,10 @@ class IntegrationTests : StringSpec({
         val f = "f(a,b,a)={b}"
         runProgram("f(1,2,1)", f) shouldBe "ARGUMENT NAMES NOT DISTINCT f:1"
     }
-    "FUNCTION NAMES NOT DISTINCT" {
+    "FUNCTIONS NOT DISTINCT" {
         val f1 = "f(a)={a}"
         val f2 = "f(c)={c}"
-        runProgram("f(1)", f1, f2) shouldBe "FUNCTION NAMES NOT DISTINCT f:2"
+        runProgram("f(1)", f1, f2) shouldBe "FUNCTIONS NOT DISTINCT f:2"
     }
 
     "Deep recursive function fails on stack overflow" {
@@ -65,11 +65,18 @@ class IntegrationTests : StringSpec({
         runProgram("f(1000000000)", f) shouldMatch "^RUNTIME ERROR .*:1$".toRegex()
     }
 
+    "Functions with the same name and different argument numbers are valid" {
+        val min1 = "min(x,y)={[(x<y)]?(x):(y)}"
+        val min2 = "min(x,y,z)={min(min(x,y),z)}"
+        val min3 = "min(x,y,z,w)={min(min(x,y,z),w)}"
+        runProgram("min(6,2,5,3)", min1, min2, min3).toInt() shouldBe 2
+    }
+
     "neg function positive arg" { runProgram("neg(5)", negFunction).toInt() shouldBe -5 }
     "neg function negative arg" { runProgram("neg(-5)", negFunction).toInt() shouldBe 5 }
     "abs function negative arg" { runProgram("abs(-12)", absFunction, negFunction).toInt() shouldBe 12 }
     "abs function positive arg" { runProgram("abs(12)", absFunction, negFunction).toInt() shouldBe 12 }
     "gcd function" { runProgram("gcd(3120,1352)", gcdFunction).toInt() shouldBe 104 }
     "lcm function" { runProgram("lcm(3120,1352)", lcmFunction, gcdFunction).toInt() shouldBe 40560 }
-    "powFunction" { runProgram("pow(3,5)", powFunction).toInt() shouldBe 3 * 3 * 3 * 3 * 3 }
+    "pow function" { runProgram("pow(3,5)", powFunction).toInt() shouldBe 3 * 3 * 3 * 3 * 3 }
 })
