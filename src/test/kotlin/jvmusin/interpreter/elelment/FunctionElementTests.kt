@@ -33,4 +33,9 @@ class FunctionElementTests : StringSpec({
         every { body.invoke(any()) } answers { arg<CallEnvironment>(0).getVariable("x") }
         func.invoke(env) shouldBe 5
     }
+    "toString returns string in format 'name(arg1,arg2)={body}'" {
+        val body = mockk<Element>()
+        every { body.toString() } returns "calc"
+        FunctionElement(12, "func", listOf("ab", "c"), body).toString() shouldBe "func(ab,c)={calc}"
+    }
 })

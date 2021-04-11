@@ -94,7 +94,7 @@ class ArgumentNumberMismatchError(functionName: String) : ValidationError(functi
  *
  * Thrown if some function's argument names are not pairwise-distinct.
  */
-class ArgumentNamesNotDistinctError(duplicatedArgumentName: String) : ValidationError(duplicatedArgumentName) {
+class ArgumentNamesNotDistinctError(functionName: String) : ValidationError(functionName) {
     override val prefix = "ARGUMENT NAMES NOT DISTINCT"
 }
 
