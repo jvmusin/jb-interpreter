@@ -20,6 +20,7 @@ class WrappableErrorTests : StringSpec({
         val wrapped = e.wrap(42)
         wrapped.cause shouldBe e
         wrapped.message shouldBe "Prefix msg:42"
+        wrapped.wrapped shouldBe false
     }
 
     "Does not wrap already wrapped exceptions" {

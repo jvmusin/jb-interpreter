@@ -10,7 +10,7 @@ package jvmusin.interpreter.element
 abstract class WrappableError(
     message: String,
     cause: Throwable? = null,
-    protected val wrapped: Boolean = false
+    val wrapped: Boolean = false
 ) : Error(message, cause) {
 
     /**
