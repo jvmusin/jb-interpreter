@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.Element
+import jvmusin.interpreter.runner.Element
 
 /**
  * Expression token.

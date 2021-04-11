@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.FunctionCallElement
+import jvmusin.interpreter.runner.FunctionCallElement
 
 /**
  * Call expression token.

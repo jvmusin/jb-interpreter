@@ -1,4 +1,4 @@
-package jvmusin.interpreter.element
+package jvmusin.interpreter.runner
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

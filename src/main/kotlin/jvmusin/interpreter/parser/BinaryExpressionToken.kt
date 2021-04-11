@@ -1,7 +1,7 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.BinaryExpressionElement
-import jvmusin.interpreter.element.BinaryOperation
+import jvmusin.interpreter.runner.BinaryExpressionElement
+import jvmusin.interpreter.runner.BinaryOperation
 
 /**
  * Binary expression token. Looks like

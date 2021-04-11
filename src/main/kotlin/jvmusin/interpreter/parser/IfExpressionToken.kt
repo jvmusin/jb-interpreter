@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.IfExpressionElement
+import jvmusin.interpreter.runner.IfExpressionElement
 
 /**
  * If expression token.

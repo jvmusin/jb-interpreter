@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.FunctionElement
+import jvmusin.interpreter.runner.FunctionElement
 
 /**
  * Function definition token.

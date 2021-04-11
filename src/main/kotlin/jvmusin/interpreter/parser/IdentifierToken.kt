@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.VariableElement
+import jvmusin.interpreter.runner.VariableElement
 
 /**
  * Identifier token.

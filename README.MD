@@ -241,28 +241,28 @@ RUNTIME ERROR (a/b):1
 Если программу не удалось спарсить, то выбрасывается
 [SyntaxError](src/main/kotlin/jvmusin/interpreter/parser/SyntaxError.kt).
 
-После парсинга токенов, они переводятся в вид [Element](src/main/kotlin/jvmusin/interpreter/element/Element.kt), на
+После парсинга токенов, они переводятся в вид [Element](src/main/kotlin/jvmusin/interpreter/runner/Element.kt), на
 которых уже происходит валидация и выполнение программы.
 
 ### Интерпретатор
 
-Интерпретатор находится в пакете `jvmusin.interpreter.element`.
+Интерпретатор находится в пакете `jvmusin.interpreter.runner`.
 
 Метод `Element.validate` позволяет проверять на корректность всю программу, чтобы не было вызовов неизвестных функций
 или других логических ошибок при выполнении программы. Если они находятся, то выбрасывается
-[ValidationError](src/main/kotlin/jvmusin/interpreter/element/InterpreterErrors.kt).
+[ValidationError](src/main/kotlin/jvmusin/interpreter/runner/InterpreterErrors.kt).
 
 Метод `Element.invoke` позволяет запускать выполнение элемента. Он принимает на вход
-[CallEnvironment](src/main/kotlin/jvmusin/interpreter/element/CallEnvironment.kt), который содержит все локальные
+[CallEnvironment](src/main/kotlin/jvmusin/interpreter/runner/CallEnvironment.kt), который содержит все локальные
 переменные и все известные функции. Чтобы отлавливать ошибки во время выполнения кода, этот метод должен
 запускать `Element.invokeUnsafely`, который уже делает всю работу по запуску элемента. Вызов `Element.invokeUnsafely`
 всегда оборачивается в `invokeSafely` или `invokeSafelyWithLineNumber` из файла
-[ElementExtensions](src/main/kotlin/jvmusin/interpreter/element/ElementExtensions.kt). Эти методы позволяют запускать
+[ElementExtensions](src/main/kotlin/jvmusin/interpreter/runner/ElementExtensions.kt). Эти методы позволяют запускать
 код, который потенциально может словить исключение, так, чтобы это исключение не потерялось, а было возвращено
 вызывающей стороне в отформатированном виде.
 
 Элемент, отвечающий за всю программу целиком, лежит в
-[ProgramElement](src/main/kotlin/jvmusin/interpreter/element/ProgramElement.kt). Соответственно, для запуска программы,
+[ProgramElement](src/main/kotlin/jvmusin/interpreter/runner/ProgramElement.kt). Соответственно, для запуска программы,
 необходимо сначала спарсить её с помощью [ProgramToken](src/main/kotlin/jvmusin/interpreter/parser/ProgramToken.kt),
 затем конвертировать его в `ProgramElement`, затем валидировать программу, и уже после этого запускать её, вызвав
 метод `invoke`.
@@ -294,7 +294,3 @@ min(6,2,5,3)
   сообщением `ARGUMENT NAMES NOT DISTINCT <functionName>:<line>`;
 * Существуют две функции с одинаковым именем и количеством аргументов — выбрасывается `FunctionsNotDistinctError` с
   сообщением `FUNCTIONS NOT DISTINCT <functionName>:<line>`.
-
-## Хотелки
-
-Хочется покрыть юнит-тестами пакет `jvmusin.interpreter.element`.

@@ -1,4 +1,4 @@
-package jvmusin.interpreter.element
+package jvmusin.interpreter.runner
 
 /**
  * Function element.

@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.NumberElement
+import jvmusin.interpreter.runner.NumberElement
 
 /**
  * Constant expression token.

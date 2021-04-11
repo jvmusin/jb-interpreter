@@ -1,4 +1,4 @@
-package jvmusin.interpreter.element
+package jvmusin.interpreter.runner
 
 /**
  * Validates `this` [Element] using the concrete [lineNumber] and [environment].

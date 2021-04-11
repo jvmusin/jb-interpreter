@@ -1,6 +1,6 @@
 package jvmusin.interpreter.parser
 
-import jvmusin.interpreter.element.ProgramElement
+import jvmusin.interpreter.runner.ProgramElement
 
 /**
  * Program token.
