@@ -2,9 +2,10 @@
 
 [![Gradle CI](https://github.com/jvmusin/jb-interpreter/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/jvmusin/jb-interpreter/actions/workflows/gradle-build.yml)
 
-Проект является решением задания на стажировку в JetBrains 2021.
+Проект является решением задания на стажировку в JetBrains 2021 на проект
+["Inspections for new IDE platform SDK"](https://internship.jetbrains.com/projects/920/).
 
-Запускается с помощью `./gradlew -q run --console=plain <<< "<your_program_here`. Также можно подсунуть файл или
+Запускается с помощью `./gradlew -q run --console=plain <<< "<your_program_here>"`. Также можно подсунуть файл или
 какой-то поток, главное — закрыть ввод после его окончания. Вводить программу с клавиатуры не выйдет.
 
 ## Задание
@@ -15,17 +16,17 @@
 Язык задан следующей грамматикой:
 
 ```
-<character>  ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "_"
-<digit>   ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-<number> ::= <digit> | <digit> <number>
-<identifier> ::= <character> | <identifier> <character>
-<operation> ::= "+" | "-" | "*" | "/" | "%" | ">" | "<" | "="
+<character>   ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "_"
+<digit>       ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<number>      ::= <digit> | <digit> <number>
+<identifier>  ::= <character> | <identifier> <character>
+<operation>   ::= "+" | "-" | "*" | "/" | "%" | ">" | "<" | "="
 
 <constant-expression> ::= "-" <number> | <number>
-<binary-expression> ::= "(" <expression> <operation> <expression>  ")"
-<argument-list> ::= <expression> | <expression> "," <argument-list>
-<call-expression> ::= <identifier> "(" <argument-list> ")"
-<if-expression> ::= "[" <expression> "]?(" <expression> "):("<expression>")"
+<binary-expression>   ::= "(" <expression> <operation> <expression> ")"
+<argument-list>       ::= <expression> | <expression> "," <argument-list>
+<call-expression>     ::= <identifier> "(" <argument-list> ")"
+<if-expression>       ::= "[" <expression> "]?(" <expression> "):(" <expression> ")"
 
 
 <expression> ::= <identifier>
@@ -49,7 +50,8 @@
 
 Семантика языка задается следующим образом:
 
-* Все переменные имеют тип `32-битный Integer`; Гарантируется, что вычисления не приводят к переполнению;
+* Все переменные имеют тип `32-битный Integer`;
+* Гарантируется, что вычисления не приводят к переполнению;
 * Все арифметические операции аналогичны соответствующим операциям для `32-битного int` в языка `Java`;
 * Операции сравнения возвращают `1` если сравнение истинно и `0` если ложно;
 * `<if-expression>` исполняет второе выражение, если первое выражение не равно `0`; иначе исполняет третье;
@@ -86,7 +88,9 @@
 4
 ```
 
-#### Поддержка `<if-expression>`: в программе присутствуют `<if-expression>` Пример:
+#### Поддержка `<if-expression>`: в программе присутствуют `<if-expression>`
+
+Пример:
 
 ```
 [((10+20)>(20+10))]?(1):(0)
