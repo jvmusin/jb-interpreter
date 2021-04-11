@@ -3,11 +3,13 @@ package jvmusin.interpreter.elelment
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
-import jvmusin.interpreter.element.*
+import jvmusin.interpreter.element.CallEnvironment
+import jvmusin.interpreter.element.Element
+import jvmusin.interpreter.element.IfExpressionElement
 
 class IfExpressionElementTests : StringSpec({
-    "Passes environment to condition, ifTrue and ifFalse" {
-        val environment = CallEnvironment(Functions(mapOf("f" to mapOf(1 to mockk()))), Variables(mapOf("x" to 1)))
+    "invoke passes environment to condition, ifTrue and ifFalse" {
+        val environment = getTestEnvironment()
 
         val condition = mockk<Element>()
         val ifTrue = mockk<Element>()
@@ -49,7 +51,7 @@ class IfExpressionElementTests : StringSpec({
         }
     }
     "validate calls validate on condition, ifTrue and ifFalse" {
-        val environment = CallEnvironment(Functions(mapOf("f" to mapOf(1 to mockk()))), Variables(mapOf("x" to 1)))
+        val environment = getTestEnvironment()
 
         val condition = mockk<Element>()
         val ifTrue = mockk<Element>()

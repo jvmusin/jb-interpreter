@@ -5,8 +5,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.throwable.shouldHaveMessage
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import jvmusin.interpreter.element.*
 
 class FunctionElementTests : StringSpec({
@@ -14,7 +13,7 @@ class FunctionElementTests : StringSpec({
         val body = mockk<Element>()
         every { body.invoke(any()) } returns 42
         val f = FunctionElement(12, "f", listOf("x"), body)
-        f.invoke(CallEnvironment.EMPTY) shouldBe 42
+        f(CallEnvironment.EMPTY) shouldBe 42
     }
     "invoke(environment) throws a well-formatted InterpreterRuntimeError on runtime errors" {
         val body = mockk<Element>()
@@ -28,10 +27,17 @@ class FunctionElementTests : StringSpec({
     }
     "invoke(environment) passes an environment to body" {
         val body = mockk<Element>()
-        val func = FunctionElement(1, "f", listOf("x"), body)
-        val env = CallEnvironment(buildFunctions(listOf(func)), Variables(mapOf("x" to 5)))
+        val f = FunctionElement(1, "f", listOf("x"), body)
+        val env = CallEnvironment(buildFunctions(listOf(f)), Variables(mapOf("x" to 5)))
         every { body.invoke(any()) } answers { arg<CallEnvironment>(0).getVariable("x") }
-        func.invoke(env) shouldBe 5
+        f(env) shouldBe 5
+    }
+    "validate runs validate on body" {
+        val environment = getTestEnvironment()
+        val body = mockk<Element>()
+        every { body.validate(environment) } just Runs
+        FunctionElement(1, "f", listOf("x"), body).validate(environment)
+        verifyAll { body.validate(environment) }
     }
     "toString returns string in format 'name(arg1,arg2)={body}'" {
         val body = mockk<Element>()
