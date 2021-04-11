@@ -6,7 +6,7 @@ import io.mockk.*
 
 class IfExpressionElementTests : StringSpec({
     "invoke passes environment to condition, ifTrue and ifFalse" {
-        val environment = getTestEnvironment()
+        val environment = mockk<CallEnvironment>()
 
         val condition = mockk<Element>()
         val ifTrue = mockk<Element>()
@@ -48,7 +48,7 @@ class IfExpressionElementTests : StringSpec({
         }
     }
     "validate calls validate on condition, ifTrue and ifFalse" {
-        val environment = getTestEnvironment()
+        val environment = mockk<CallEnvironment>()
 
         val condition = mockk<Element>()
         val ifTrue = mockk<Element>()

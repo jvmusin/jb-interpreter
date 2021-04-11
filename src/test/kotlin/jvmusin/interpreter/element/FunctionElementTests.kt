@@ -32,7 +32,7 @@ class FunctionElementTests : StringSpec({
         f(env) shouldBe 5
     }
     "validate runs validate on body" {
-        val environment = getTestEnvironment()
+        val environment = mockk<CallEnvironment>()
         val body = mockk<Element>()
         every { body.validate(environment) } just Runs
         FunctionElement(1, "f", listOf("x"), body).validate(environment)
