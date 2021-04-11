@@ -224,22 +224,22 @@ RUNTIME ERROR (a/b):1
 
 ### Парсер
 
-Парсер и всё для него находится в пакете `jvmusin.interpreter.token`.
+Парсер и всё для него находится в пакете `jvmusin.interpreter.parser`.
 
 Для большей части сущностей существует свой тип токена в этом пакете.
 
 Токены описывают то, как соответствующие им сущности выглядят в грамматике и позволяют парсить их.
 
 Для парсинга токенов используется очередь из символов
-[SymbolQueue](src/main/kotlin/jvmusin/interpreter/token/SymbolQueue.kt), которая позволяет считывать очередной символ,
+[SymbolQueue](src/main/kotlin/jvmusin/interpreter/parser/SymbolQueue.kt), которая позволяет считывать очередной символ,
 если он подходит под некоторый предикат. Например, можно запросить символ, который является цифрой. Тогда, либо вернётся
 следующий символ, если он является цифрой, либо вернётся `null`.
 
 Сама очередь имеет очень ограниченный функционал, с ней удобнее всего работать через
-[queue.readSafely](src/main/kotlin/jvmusin/interpreter/token/SafeQueueReader.kt).
+[queue.readSafely](src/main/kotlin/jvmusin/interpreter/parser/SafeQueueReader.kt).
 
 Если программу не удалось спарсить, то выбрасывается
-[SyntaxError](src/main/kotlin/jvmusin/interpreter/token/SyntaxError.kt).
+[SyntaxError](src/main/kotlin/jvmusin/interpreter/parser/SyntaxError.kt).
 
 После парсинга токенов, они переводятся в вид [Element](src/main/kotlin/jvmusin/interpreter/element/Element.kt), на
 которых уже происходит валидация и выполнение программы.
@@ -263,7 +263,7 @@ RUNTIME ERROR (a/b):1
 
 Элемент, отвечающий за всю программу целиком, лежит в
 [ProgramElement](src/main/kotlin/jvmusin/interpreter/element/ProgramElement.kt). Соответственно, для запуска программы,
-необходимо сначала спарсить её с помощью [ProgramToken](src/main/kotlin/jvmusin/interpreter/token/ProgramToken.kt),
+необходимо сначала спарсить её с помощью [ProgramToken](src/main/kotlin/jvmusin/interpreter/parser/ProgramToken.kt),
 затем конвертировать его в `ProgramElement`, затем валидировать программу, и уже после этого запускать её, вызвав
 метод `invoke`.
 

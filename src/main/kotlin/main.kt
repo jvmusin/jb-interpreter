@@ -1,5 +1,5 @@
-import jvmusin.interpreter.token.ProgramTokenReader
-import jvmusin.interpreter.token.SymbolQueue
+import jvmusin.interpreter.parser.ProgramTokenReader
+import jvmusin.interpreter.parser.SymbolQueue
 
 /**
  * Replaces `\r\n` newlines with `\n` ones and drops trailing newlines in the [input] string.
